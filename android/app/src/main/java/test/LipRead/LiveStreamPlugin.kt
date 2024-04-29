@@ -1,16 +1,15 @@
-package test.LipRead.xyzframeprocessor
-
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ViewManager
-import com.mrousavy.camera.frameprocessor.FrameProcessorPluginRegistry
+import com.mrousavy.camera.frameprocessors.FrameProcessorPlugin
+import com.mrousavy.camera.frameprocessors.FrameProcessorPluginRegistry
 
-class XyzFrameProcessorPluginPackage : ReactPackage {
+class LiveStreamPluginPackage : ReactPackage {
   companion object {
     init {
-      FrameProcessorPluginRegistry.addFrameProcessorPlugin("xyz") { proxy, options ->
-        XyzFrameProcessorPlugin(proxy, options)
+      FrameProcessorPluginRegistry.addFrameProcessorPlugin("LiveStream") { proxy, options ->
+        FaceDetectorFrameProcessorPlugin(proxy, options)
       }
     }
   }

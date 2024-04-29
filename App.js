@@ -5,13 +5,10 @@ import React, { useEffect, useState } from "react";
 import { useCameraPermission, Camera, runAsync } from "react-native-vision-camera";
 import { useCameraDevice } from "react-native-vision-camera";
 import { useFrameProcessor } from "react-native-vision-camera";
-import {Buffer} from "buffer";
-import io from "socket.io-client";
-import { runOnJS } from "react-native-reanimated";
 import { useSharedValue } from "react-native-worklets-core";
-import { Worklets } from "react-native-vision-camera";
+import { Worklets } from "react-native-worklets-core";
 import { VisionCameraProxy,Frame } from "react-native-vision-camera";
-import { xyz } from "./Plugin";
+import {stream } from "./Plugin";
 
 
 const SERVER_URL = "ws://10.7.237.84:5000";
@@ -31,7 +28,6 @@ export default function App() {
     "worklet";
     console.log("Frame:", frame.pixelFormat);
   
-    xyz(frame);
     //use socketSend here
     // console.log(xyz(frame));
   
