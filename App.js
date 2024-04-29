@@ -9,9 +9,9 @@ import {Buffer} from "buffer";
 import io from "socket.io-client";
 import { runOnJS } from "react-native-reanimated";
 import { useSharedValue } from "react-native-worklets-core";
-import { Worklets } from "react-native-vision-camera";
+import { Worklets } from "react-native-worklets-core";
 import { VisionCameraProxy,Frame } from "react-native-vision-camera";
-import { xyz } from "./Plugin";
+
 
 
 const SERVER_URL = "ws://10.7.237.84:5000";
@@ -19,9 +19,12 @@ const SERVER_URL = "ws://10.7.237.84:5000";
 
 export default function App() {
 
+  const {frame, setFrame } = useState(null);
   const device = useCameraDevice("back");
   const { hasPermission, requestPermission } = useCameraPermission();
-  // const {frames, setFrames} = useSharedValue();
+  
+  
+  
   // const [socket, setSocket] = useSharedValue(null);
   // const [sending, setSending] = useState(false);
 
@@ -29,12 +32,9 @@ export default function App() {
 
   const frameProcessor = useFrameProcessor((frame) => {
     "worklet";
-    console.log("Frame:", frame.pixelFormat);
-  
-    xyz(frame);
-    //use socketSend here
-    // console.log(xyz(frame));
-  
+    
+    //develop a function to set the frame to the shared value
+    Worklets.runOnJS(() => setFrame(frame.toArrayBuffer()));
   });
 
   // useEffect(() => {
