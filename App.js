@@ -10,9 +10,8 @@ import io from "socket.io-client";
 import { runOnJS } from "react-native-reanimated";
 import { useSharedValue } from "react-native-worklets-core";
 import { Worklets } from "react-native-vision-camera";
-import { socketSend } from "./processPlugin";
 import { VisionCameraProxy,Frame } from "react-native-vision-camera";
-import {xyz} from "./Plugin";
+import { xyz } from "./Plugin";
 
 
 const SERVER_URL = "ws://10.7.237.84:5000";
@@ -22,37 +21,32 @@ export default function App() {
 
   const device = useCameraDevice("back");
   const { hasPermission, requestPermission } = useCameraPermission();
-  const {frames, setFrames} = useSharedValue();
-  const [socket, setSocket] = useSharedValue(null);
-  const [sending, setSending] = useState(false);
+  // const {frames, setFrames} = useSharedValue();
+  // const [socket, setSocket] = useSharedValue(null);
+  // const [sending, setSending] = useState(false);
 
 
-  const sendFramesToServer = (frames) => {
-    "worklet"
-    console.log(frames.pixelFormat)
-    console.log("Sending frames to server:", frames);
-    socket.emit("frames", {frames:frames});
-  };
 
   const frameProcessor = useFrameProcessor((frame) => {
     "worklet";
-    console.log("Frame:", frame.toString());
+    console.log("Frame:", frame.pixelFormat);
   
+    xyz(frame);
     //use socketSend here
-    console.log(xyz(frame));
+    // console.log(xyz(frame));
   
   });
 
-  useEffect(() => {
-    // Establish WebSocket connection
-    const newSocket = io(SERVER_URL);
-    setSocket(newSocket);
+  // useEffect(() => {
+  //   // Establish WebSocket connection
+  //   const newSocket = io(SERVER_URL);
+  //   setSocket(newSocket);
 
-    return () => {
-      // Close WebSocket connection when component unmounts
-      newSocket.close();
-    };
-  }, []);
+  //   return () => {
+  //     // Close WebSocket connection when component unmounts
+  //     newSocket.close();
+  //   };
+  // }, []);
 
 
 
